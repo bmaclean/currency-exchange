@@ -1,4 +1,5 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+// eslint-disable-next-line import/extensions
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 
 /**
  * @customElement
@@ -15,12 +16,13 @@ class CurrencyExchangeApp extends PolymerElement {
       <h2>Hello [[prop1]]!</h2>
     `;
   }
+
   static get properties() {
     return {
       prop1: {
         type: String,
-        value: 'currency-exchange-app'
-      }
+        value: 'currency-exchange-app',
+      },
     };
   }
 }

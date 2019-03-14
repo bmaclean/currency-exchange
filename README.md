@@ -6,10 +6,6 @@ An application to visualize foreign exchange rates and buy/sell currencies.
 
 ## Start the project
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
-
-## Viewing Your Application
-
 Ensure that the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) is installed, then run:
 
 ```bash
