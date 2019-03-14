@@ -1,0 +1,7 @@
+{
+  "name": "currency-exchange",
+  "short_name": "currency-exchange",
+  "description": "An application to visualize foreign exchange rates and buy/sell currencies.",
+  "start_url": "/",
+  "display": "standalone"
+}
