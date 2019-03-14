@@ -1,8 +1,12 @@
 {
   "name": "currency-exchange",
+  "version": "0.0.1",
+  "author": "Brendan Maclean <brendan.maclean@alumni.ubc.ca>",
   "description": "An application to visualize foreign exchange rates and buy/sell currencies.",
   "dependencies": {
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
   },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",
@@ -14,5 +18,10 @@
     "eslint-plugin-polymer": "^0.4.0",
     "mocha": "^5.2.0",
     "wct-mocha": "^1.0.0"
+  },
+  "scripts": {
+    "start": "npm run serve | npm run watch",
+    "serve": "polymer serve --port 8080",
+    "test": "polymer test"
   }
 }

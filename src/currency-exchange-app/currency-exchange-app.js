@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/extensions
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import './my-wallet.js';
 
 /**
  * @customElement
@@ -10,21 +10,25 @@ class CurrencyExchangeApp extends PolymerElement {
     return html`
       <style>
         :host {
-          display: block;
+          display: grid;
         }
       </style>
-      <h2>Hello [[prop1]]!</h2>
+      <my-wallet
+        id="mywallet"
+        class="leftpanel"
+        name="my-wallet"
+      />
     `;
+  }
+
+  static get is() {
+    return 'currency-exchange-app';
   }
 
   static get properties() {
     return {
-      prop1: {
-        type: String,
-        value: 'currency-exchange-app',
-      },
     };
   }
 }
 
-window.customElements.define('currency-exchange-app', CurrencyExchangeApp);
+window.customElements.define(CurrencyExchangeApp.is, CurrencyExchangeApp);
