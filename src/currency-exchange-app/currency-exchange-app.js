@@ -1,5 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import './my-wallet.js';
+import './currency-sidebar.js';
 
 /**
  * @customElement
@@ -13,10 +13,10 @@ class CurrencyExchangeApp extends PolymerElement {
           display: grid;
         }
       </style>
-      <my-wallet
-        id="mywallet"
+      <currency-sidebar
+        id="currency-sidebar"
         class="leftpanel"
-        name="my-wallet"
+        name="currency-sidebar"
       />
     `;
   }

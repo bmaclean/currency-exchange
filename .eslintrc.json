@@ -3,5 +3,8 @@
     "plugins": [
         "import",
         "polymer"
-    ]
+    ],
+    "rules": {
+        "import/extensions": "off"
+    }
 }

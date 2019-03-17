@@ -4,6 +4,8 @@
   "author": "Brendan Maclean <brendan.maclean@alumni.ubc.ca>",
   "description": "An application to visualize foreign exchange rates and buy/sell currencies.",
   "dependencies": {
+    "@google-web-components/google-chart": "^3.0.4",
+    "@polymer/app-layout": "^3.0.2",
     "@polymer/polymer": "^3.0.0",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0"
