@@ -1,8 +1,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-item';
 import '@polymer/app-layout/app-layout.js';
 import './currency-exchange-layout';
-import './currency-sidebar.js';
 
 /**
  * @customElement
@@ -20,6 +19,10 @@ class CurrencyExchangeApp extends PolymerElement {
           grid-template-rows: auto;
           border: 1px;
           box-shadow: 5px 0 5px grey;
+          overflow: scroll;
+        }
+        paper-item {
+          border: 1px;
         }
       </style>
       <app-drawer-layout onclick="{{reportCurrency}}">
@@ -30,7 +33,12 @@ class CurrencyExchangeApp extends PolymerElement {
           slot="drawer"
         >
         <template is="dom-repeat" items="[[currencies]]">
-          <paper-item>[[item.value]]</paper-item>
+          <paper-item toggles="false">
+            <paper-item-body two-line>
+              <div>[[item.currency]]</div>
+              <div secondary>[[item.value]]</div>
+            </paper-item-body>
+          </paper-item>
         </template>
         </app-drawer>
         <currency-app-content />
