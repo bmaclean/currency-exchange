@@ -22,17 +22,16 @@ class CurrencyExchangeApp extends PolymerElement {
           box-shadow: 5px 0 5px grey;
         }
       </style>
-      <app-drawer-layout>
+      <app-drawer-layout onclick="{{reportCurrency}}">
         <app-drawer
           id="currency-sidebar"
           class="leftpanel"
           name="currency-sidebar"
           slot="drawer"
         >
-        <paper-item>cunt</paper-item>
-        <paper-item>fuck</paper-item>
-        <paper-item>you</paper-item>
-        <paper-item>cunt</paper-item>
+        <template is="dom-repeat" items="[[currencies]]">
+          <paper-item>[[item.value]]</paper-item>
+        </template>
         </app-drawer>
         <currency-app-content />
       </app-drawer-layout>
@@ -45,7 +44,35 @@ class CurrencyExchangeApp extends PolymerElement {
 
   static get properties() {
     return {
+      currencies: Array,
     };
+  }
+
+  ready() {
+    super.ready();
+    this.setCurrencies();
+  }
+
+  setCurrencies() {
+    return fetch('https://api.exchangeratesapi.io/latest').then(
+      (response) => {
+        if (response.status !== 200) {
+          // eslint-disable-next-line no-console
+          console.warn(`Fetching currencies failed with status ${response.status}`);
+          return;
+        }
+        response.json().then((data) => {
+          this.currencies = this._formatRates(data.rates);
+        });
+      }
+    ).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(`Fetching currencies failed with error ${err}`);
+    });
+  }
+
+  _formatRates(rates) {
+    return Object.entries(rates).map(([key, value]) => ({ currency: key, value }));
   }
 }
 

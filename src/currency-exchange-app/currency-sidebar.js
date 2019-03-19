@@ -11,17 +11,10 @@ class CurrencySidebar extends PolymerElement {
   static get template() {
     return html`
       <style>
-        :host {
-          display: grid;
-          margin-top: 0px;
-          margin-left: 0px;
-          width: 500px;
+       :host {
         }
-        .currency-container {
-          width: 400px;
-          grid-template-rows: auto;
-          border: 1px;
-          box-shadow: 5px 0 10px grey;
+        #drawer {
+          --app-drawer-width: 300px;
         }
         .currency-item {
           height: 40px;
@@ -31,8 +24,8 @@ class CurrencySidebar extends PolymerElement {
       <app-drawer id="drawer" persistent position="left">
         <template is="dom-repeat" items="{{currencies}}">
           <div class="currency-item">
-          <div><span>{{item.code}}</span></div>
-          <div><span>{{item.balance}}</span></div>
+          {{item.code}}
+          {{item.balance}}
           <div>
         </template>
       </app-drawer>
