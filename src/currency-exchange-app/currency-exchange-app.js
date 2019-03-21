@@ -1,9 +1,9 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import moment from 'moment';
 import '@polymer/paper-item';
 import '@polymer/app-layout/app-layout.js';
-import 'moment/moment.js';
 import './currency-app-content';
-import './currency-exchange-layout';
+import './currency-drawer-item';
 
 /**
  * @customElement
@@ -14,36 +14,55 @@ class CurrencyExchangeApp extends PolymerElement {
 		return html`
             <style>
                 :host {
-                display: grid;
-                }
+					display: grid;
+					background-color: #37474f;
+					margin: -10px;
+				}
+				app-drawer-layout {
+					--app-drawer-width: 350px;
+				}
                 app-drawer {
-                --app-drawer-width: 350px;
-                grid-template-rows: auto;
-                border: 1px;
-                box-shadow: 5px 0 5px grey;
-                overflow: scroll;
+					--app-drawer-width: 350px;
+					--app-drawer-content-container: {
+						background-color: #263238;
+					};
+					background-color: #263238;
+                    border: 1px;
+                    box-shadow: 5px 0 5px black;
+                    grid-template-rows: auto;
+                    overflow: scroll;
                 }
                 paper-item {
-                border: 1px;
-                }
+                    border: 1px;
+				}
+				.drawerTitle {
+					grid-column: col-start / span 12;
+					color: #e91e63;
+					text-align: end;
+					position: sticky;
+				}
             </style>
             <app-drawer-layout>
-                <app-drawer
-                id="currency-sidebar"
-                class="leftpanel"
-                name="currency-sidebar"
-                slot="drawer"
+				<app-drawer
+                    id="currency-sidebar"
+                    class="leftpanel"
+                    name="currency-sidebar"
+                    slot="drawer"
                 >
+				<paper-item class="drawerTitle">
+					<paper-item-body>
+						<div>
+							<h1>Current Rates</h1>
+						</div>
+					</paper-item-body>
+				</paper-item>
                 <template is="dom-repeat" items="[[currencyList]]">
-                <paper-item>
-                    <paper-item-body two-line>
-                    <div>[[item.currency]]</div>
-                    <div secondary>[[item.value]]</div>
-                    </paper-item-body>
-                </paper-item>
+					<currency-drawer-item rate=[[item]] />
                 </template>
-                </app-drawer>
-                <currency-app-content currencies="[[currencies]]" />
+				</app-drawer>
+				<div class="content">
+					<currency-app-content currencies="[[currencyData]]" />
+				</div>
             </app-drawer-layout>
         `;
 	}
@@ -55,8 +74,8 @@ class CurrencyExchangeApp extends PolymerElement {
 	static get properties() {
 		return {
 			/**
-       * Base currency used to determine currency exchange rates.
-       */
+             * Base currency used to determine currency exchange rates.
+             */
 			baseCurrency: {
 				type: String,
 				value() {
@@ -64,23 +83,23 @@ class CurrencyExchangeApp extends PolymerElement {
 				},
 			},
 			/**
-       * List of currencies and their current values.
-       */
+             * List of currencies and their current values.
+             */
 			currencyList: Array,
 			/**
-       * List of currencies' historical value data.
-       */
-			currencies: Array,
+             * List of currencies' historical values. Defaults to values over the last week.
+             */
+			currencyData: Array,
 		};
 	}
 
 	ready() {
 		super.ready();
-		this.setCurrencies();
+		this.setCurrencyData();
 	}
 
-	setCurrencies() {
-		fetch(this._buildURI()).then(
+	setCurrencyData() {
+		fetch(this._buildCurrencyURI()).then(
 			(response) => {
 				if (response.status !== 200) {
 					// eslint-disable-next-line no-console
@@ -88,10 +107,10 @@ class CurrencyExchangeApp extends PolymerElement {
 					return;
 				}
 				response.json().then((data) => {
-					console.log(this._formatRates(data.rates))
-					this.currencyList = this._formatRates(data.rates);
-					this.currencies = this._formatRates(data.rates);
+					this.currencyList = this._getCurrentRates(data.rates);
+					this.currencyData = this._formatRatesForGraph(data.rates);
 				});
+			// eslint-disable-next-line comma-dangle
 			}
 		).catch((err) => {
 			// eslint-disable-next-line no-console
@@ -99,15 +118,24 @@ class CurrencyExchangeApp extends PolymerElement {
 		});
 	}
 
-	_formatRates(rates) {
+	_getCurrentRates(rates) {
+		const current = moment().subtract(1, 'days');
+		const currentRates = rates[current.format('YYYY-MM-DD')];
+		return Object.entries(currentRates).map(([key, value]) => (
+			{
+				symbol: key,
+				value: value.toFixed(2),
+			}
+		)).sort(this._compareCurrencySymbols);
+	}
+
+	_formatRatesForGraph(rates) {
 		return Object.entries(rates).map(([key, value]) => ({ currency: key, value }));
 	}
 
-	_buildURI() {
+	_buildCurrencyURI() {
 		const currentDate = this._getCurrentDate();
 		const boundaryDate = this._getBoundaryDate(currentDate);
-		console.log(`https://api.exchangeratesapi.io/history?
-    start_at=${boundaryDate}&end_at=${currentDate}&base=${this.baseCurrency}`)
 		return `https://api.exchangeratesapi.io/history?start_at=${boundaryDate}&end_at=${currentDate}&base=${this.baseCurrency}`;
 	}
 
@@ -117,6 +145,10 @@ class CurrencyExchangeApp extends PolymerElement {
 
 	_getBoundaryDate(currentDate) {
 		return moment(currentDate).subtract(14, 'd').format('YYYY-MM-DD');
+	}
+
+	_compareCurrencySymbols(a, b) {
+		return a.symbol.localeCompare(b.symbol);
 	}
 }
 

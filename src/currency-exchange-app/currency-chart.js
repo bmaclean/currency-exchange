@@ -11,6 +11,7 @@ class CurrencyChart extends PolymerElement {
 		return html`
         <style>
             google-chart {
+				margin-left: inherit;
                 width: 400px;
             }
         </style>
