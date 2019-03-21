@@ -2,7 +2,7 @@
 
 ## About \<currency-exchange\>
 
-An application to visualize foreign exchange rates and buy/sell currencies.
+An application to visualize currency exchange rates for both current and historical data.
 
 ## Start the project
 
