@@ -8,9 +8,11 @@
     "@polymer/app-layout": "^3.0.2",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/polymer": "^3.0.0",
+    "eslint-plugin-html": "^5.0.3",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "prettier": "^1.16.4"
   },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",
@@ -20,6 +22,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-polymer": "^0.4.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "mocha": "^5.2.0",
     "wct-mocha": "^1.0.0"
   },

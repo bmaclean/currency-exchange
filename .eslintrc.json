@@ -2,6 +2,7 @@
     "extends": "airbnb-base",
     "plugins": [
         "import",
+        "html",
         "polymer"
     ],
     "rules": {
