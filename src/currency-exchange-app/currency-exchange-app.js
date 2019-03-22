@@ -2,7 +2,7 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import moment from 'moment';
 import '@polymer/paper-item';
 import '@polymer/app-layout/app-layout.js';
-import './currency-app-content';
+import './currency-chart';
 import './currency-drawer-item';
 
 /**
@@ -14,9 +14,10 @@ class CurrencyExchangeApp extends PolymerElement {
 		return html`
             <style>
                 :host {
-					display: grid;
 					background-color: #37474f;
-					margin: -10px;
+					display: grid;
+					height: 100vh;
+					overflow: hidden;
 				}
 				app-drawer-layout {
 					--app-drawer-width: 350px;
@@ -27,11 +28,14 @@ class CurrencyExchangeApp extends PolymerElement {
 						background-color: #263238;
 					};
 					background-color: #263238;
-                    border: 1px;
                     box-shadow: 5px 0 5px black;
                     grid-template-rows: auto;
                     overflow: scroll;
-                }
+				}
+				currency-chart {
+					height: 100%;
+					width: 100%;
+				}
                 paper-item {
                     border: 1px;
 				}
@@ -40,6 +44,9 @@ class CurrencyExchangeApp extends PolymerElement {
 					color: #e91e63;
 					text-align: end;
 					position: sticky;
+				}
+				.content {
+					height: 100%;
 				}
             </style>
             <app-drawer-layout>
@@ -61,7 +68,7 @@ class CurrencyExchangeApp extends PolymerElement {
                 </template>
 				</app-drawer>
 				<div class="content">
-					<currency-app-content currencies="[[currencyData]]" />
+					<currency-chart currencies="[[currencyData]]" />
 				</div>
             </app-drawer-layout>
         `;
