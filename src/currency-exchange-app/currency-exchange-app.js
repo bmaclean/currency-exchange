@@ -106,7 +106,7 @@ class CurrencyExchangeApp extends PolymerElement {
 	}
 
 	setCurrencyData() {
-		fetch(this._buildCurrencyURI()).then(
+		fetch(this._buildCurrencyURL()).then(
 			(response) => {
 				if (response.status !== 200) {
 					// eslint-disable-next-line no-console
@@ -114,7 +114,8 @@ class CurrencyExchangeApp extends PolymerElement {
 					return;
 				}
 				response.json().then((data) => {
-					this.currencyList = this._getCurrentRates(data.rates);
+					// const rates = this._standardizeRates(data.rates);
+					this.currencyList = this._getMostRecentRates(data.rates);
 					this.currencyData = this._formatRatesForGraph(data.rates);
 				});
 			// eslint-disable-next-line comma-dangle
@@ -125,25 +126,39 @@ class CurrencyExchangeApp extends PolymerElement {
 		});
 	}
 
-	_getCurrentRates(rates) {
-		const current = moment().subtract(1, 'days');
-		const currentRates = rates[current.format('YYYY-MM-DD')];
-		return Object.entries(currentRates).map(([key, value]) => (
+	_standardizeRates(rates) {
+		return Object.entries(rates).map(([key, value]) => (
 			{
 				symbol: key,
 				value: value.toFixed(2),
 			}
-		)).sort(this._compareCurrencySymbols);
+		)).sort(this._compareCurrencySymbols)
+	}
+
+	_getMostRecentRates(rates) {
+		const recent = Object.keys(rates).reduce((max, curr) => curr > max ? curr : max);
+		return this._standardizeRates(rates[recent]);
 	}
 
 	_formatRatesForGraph(rates) {
-		return Object.entries(rates).map(([key, value]) => ({ currency: key, value }));
+		for (const date of Object.keys(rates)) {
+			rates[date] = this._standardizeRates(rates[date])
+		}
+		return rates
 	}
-
-	_buildCurrencyURI() {
-		const currentDate = this._getCurrentDate();
-		const boundaryDate = this._getBoundaryDate(currentDate);
-		return `https://api.exchangeratesapi.io/history?start_at=${boundaryDate}&end_at=${currentDate}&base=${this.baseCurrency}`;
+	
+	_buildCurrencyURL() {
+		const url = new URL('https://api.exchangeratesapi.io/history')
+		const end_at = this._getCurrentDate();
+		const start_at = this._getBoundaryDate(end_at);
+		const symbols = `AUD,CAD,USD,GBP,JPY,EUR,HKD,THB,DKK,ZAR,CNY,INR`;
+		url.search = new URLSearchParams({
+			start_at,
+			end_at,
+			base: this.baseCurrency,
+			symbols,
+		})
+		return url;
 	}
 
 	_getCurrentDate() {

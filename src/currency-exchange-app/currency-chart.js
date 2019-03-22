@@ -25,12 +25,12 @@ class CurrencyChart extends PolymerElement {
 			}
 		</style>
 		<paper-item class="title">
-					<paper-item-body>
-						<div>
-							<h1>Historical Rates</h1>
-						</div>
-					</paper-item-body>
-				</paper-item>
+			<paper-item-body>
+				<div>
+					<h1>Historical Rates</h1>
+				</div>
+			</paper-item-body>
+		</paper-item>
 		<google-chart 
 			type="line" 
 			options=[[graphOptions]]
