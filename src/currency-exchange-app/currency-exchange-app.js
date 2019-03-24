@@ -140,11 +140,12 @@ class CurrencyExchangeApp extends PolymerElement {
 		return this._standardizeRates(rates[recent]);
 	}
 
+	// data='[["Date", "CAD", "USD"], ["Mar 17", 122.3, 139.4], ["Mar 13", 433.3, 140.5]]'>
 	_formatRatesForGraph(rates) {
-		for (const date of Object.keys(rates)) {
-			rates[date] = this._standardizeRates(rates[date])
-		}
-		return rates
+		const symbols = ["Date", ...Object.keys(Object.values(rates)[0])]
+		const dates = Object.keys(rates);
+		const values = dates.map(date => [date, ...Object.values(rates[date])]);
+		return [symbols, ...values]
 	}
 	
 	_buildCurrencyURL() {
