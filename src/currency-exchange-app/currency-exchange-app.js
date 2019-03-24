@@ -1,15 +1,17 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import moment from 'moment';
 import '@polymer/paper-item';
 import '@polymer/app-layout/app-layout.js';
 import './currency-chart';
 import './currency-drawer-item';
+import CurrencyRatesBehavior from './currency-rates-behavior.js';
 
 /**
  * @customElement
  * @polymer
  */
-class CurrencyExchangeApp extends PolymerElement {
+class CurrencyExchangeApp extends mixinBehaviors([CurrencyRatesBehavior], PolymerElement) {
 	static get template() {
 		return html`
             <style>
@@ -115,8 +117,8 @@ class CurrencyExchangeApp extends PolymerElement {
 				}
 				response.json().then((data) => {
 					// const rates = this._standardizeRates(data.rates);
-					this.currencyList = this._getMostRecentRates(data.rates);
-					this.currencyData = this._formatRatesForGraph(data.rates);
+					this.currencyList = this.getMostRecentRates(data.rates);
+					this.currencyData = this.formatRatesForGraph(data.rates);
 				});
 			// eslint-disable-next-line comma-dangle
 			}
@@ -125,33 +127,11 @@ class CurrencyExchangeApp extends PolymerElement {
 			console.error(`Fetching currencies failed with error ${err}`);
 		});
 	}
-
-	_standardizeRates(rates) {
-		return Object.entries(rates).map(([key, value]) => (
-			{
-				symbol: key,
-				value: value.toFixed(2),
-			}
-		)).sort(this._compareCurrencySymbols)
-	}
-
-	_getMostRecentRates(rates) {
-		const recent = Object.keys(rates).reduce((max, curr) => curr > max ? curr : max);
-		return this._standardizeRates(rates[recent]);
-	}
-
-	// data='[["Date", "CAD", "USD"], ["Mar 17", 122.3, 139.4], ["Mar 13", 433.3, 140.5]]'>
-	_formatRatesForGraph(rates) {
-		const symbols = ["Date", ...Object.keys(Object.values(rates)[0])]
-		const dates = Object.keys(rates);
-		const values = dates.map(date => [date, ...Object.values(rates[date])]);
-		return [symbols, ...values]
-	}
 	
 	_buildCurrencyURL() {
 		const url = new URL('https://api.exchangeratesapi.io/history')
-		const end_at = this._getCurrentDate();
-		const start_at = this._getBoundaryDate(end_at);
+		const end_at = this.getCurrentDate();
+		const start_at = this.getBoundaryDate(end_at);
 		const symbols = `AUD,CAD,USD,GBP,JPY,EUR,HKD,THB,DKK,ZAR,CNY,INR`;
 		url.search = new URLSearchParams({
 			start_at,
@@ -160,18 +140,6 @@ class CurrencyExchangeApp extends PolymerElement {
 			symbols,
 		})
 		return url;
-	}
-
-	_getCurrentDate() {
-		return moment().format('YYYY-MM-DD');
-	}
-
-	_getBoundaryDate(currentDate) {
-		return moment(currentDate).subtract(14, 'd').format('YYYY-MM-DD');
-	}
-
-	_compareCurrencySymbols(a, b) {
-		return a.symbol.localeCompare(b.symbol);
 	}
 }
 
