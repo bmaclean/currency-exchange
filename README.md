@@ -1,6 +1,6 @@
 # \<currency-exchange\>
 
-![An image of the <currency-exchange\> demo.](http://./demo-img.png "<currency-exchange\>")
+![An image of the <currency-exchange\> demo.](./demo-img.png?raw=true "<currency-exchange\>")
 
 ## About \<currency-exchange\>
 
