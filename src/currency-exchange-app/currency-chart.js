@@ -23,7 +23,7 @@ class CurrencyChart extends PolymerElement {
 		<paper-item class="title">
 			<paper-item-body>
 				<div>
-					<h1>Trends</h1>
+					<h1>Historical Trends</h1>
 				</div>
 			</paper-item-body>
 		</paper-item>
