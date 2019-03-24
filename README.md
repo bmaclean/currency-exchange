@@ -1,5 +1,7 @@
 # \<currency-exchange\>
 
+![An image of the <currency-exchange\> demo.](http://./demo-img.png "<currency-exchange\>")
+
 ## About \<currency-exchange\>
 
 An application to visualize currency exchange rates for both current and historical data.
