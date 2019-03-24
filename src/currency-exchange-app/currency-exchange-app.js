@@ -132,7 +132,7 @@ class CurrencyExchangeApp extends mixinBehaviors([CurrencyRatesBehavior], Polyme
 		const url = new URL('https://api.exchangeratesapi.io/history')
 		const end_at = this.getCurrentDate();
 		const start_at = this.getBoundaryDate(end_at);
-		const symbols = `AUD,CAD,USD,GBP,JPY,EUR,HKD,THB,DKK,ZAR,CNY,INR`;
+		const symbols = `AUD,CAD,USD,GBP,EUR,SGD,CHF,NZD,BGN`;
 		url.search = new URLSearchParams({
 			start_at,
 			end_at,

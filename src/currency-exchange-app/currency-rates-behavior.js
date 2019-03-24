@@ -18,14 +18,14 @@ const CurrencyRatesBehavior = {
 	},
 
 	formatRatesForGraph: function(rates) {
-		const dates = Object.keys(rates);
+		const dates = Object.keys(rates).sort();
 		const sortedRates = {};
 		Object.keys(rates).sort().forEach(date => sortedRates[date] = {});
 		Object.keys(rates).forEach(rate => Object.keys(rates[rate]).sort().forEach(key => 
 			sortedRates[rate][key] = rates[rate][key]
 		));
 		const symbols = ["Date", ...Object.keys(Object.values(sortedRates)[0])];
-		const values = dates.map(date => [date, ...Object.values(sortedRates[date])]);
+		const values = dates.map(date => [new Date(date), ...Object.values(sortedRates[date])]);
 		return [symbols, ...values]
 	},
 

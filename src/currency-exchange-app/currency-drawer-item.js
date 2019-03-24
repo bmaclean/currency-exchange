@@ -1,6 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-item';
-
 class CurrencyDrawerItem extends PolymerElement {
 	static get template() {
 		return html`
@@ -10,7 +9,7 @@ class CurrencyDrawerItem extends PolymerElement {
 					background-color: inherit;
                 }
                 paper-item-body {
-					color: white;
+					color: #cfd8dc;
 					display: grid;
 					grid-template-columns: 50% 50%;
 				}
