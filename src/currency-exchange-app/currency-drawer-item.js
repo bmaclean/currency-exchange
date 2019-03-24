@@ -1,5 +1,12 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-item';
+
+/**
+ * CurrencyDrawerItem is a single currency item in the lefthand drawer,
+ * containing the currency symbol and most recent rate.
+ * @customElement
+ * @polymer
+ */
 class CurrencyDrawerItem extends PolymerElement {
 	static get template() {
 		return html`
@@ -39,7 +46,7 @@ class CurrencyDrawerItem extends PolymerElement {
 	static get properties() {
 		return {
 			/**
-             * The rate for this drawer item.
+             * The rate for this drawer item with symbol and value props.
              */
 			rate: {
 				type: Object,

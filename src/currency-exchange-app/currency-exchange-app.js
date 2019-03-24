@@ -8,6 +8,7 @@ import './currency-drawer-item';
 import CurrencyRatesBehavior from './currency-rates-behavior.js';
 
 /**
+ * The root application.
  * @customElement
  * @polymer
  */
@@ -107,6 +108,9 @@ class CurrencyExchangeApp extends mixinBehaviors([CurrencyRatesBehavior], Polyme
 		this.setCurrencyData();
 	}
 
+	/**
+	 * Fetches historical currency data and sets 
+	 */
 	setCurrencyData() {
 		fetch(this._buildCurrencyURL()).then(
 			(response) => {

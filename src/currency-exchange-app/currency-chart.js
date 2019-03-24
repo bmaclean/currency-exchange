@@ -3,6 +3,8 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@google-web-components/google-chart';
 
 /**
+ * CurrencyChart provides the main content of the application, including
+ * the graph of currency data and content title.
  * @customElement
  * @polymer
  */
@@ -41,10 +43,17 @@ class CurrencyChart extends PolymerElement {
 
 	static get properties() {
 		return {
+			/**
+			 * A preformatted array of currency data. CurrencyChart expects this data
+			 * to be formatted for google-chart.
+			 */
 			currencies: {
 				type: Array,
 				reflectToAttribute: true,
 			},
+			/**
+			 * The set of options to configure google-chart.
+			 */
 			graphOptions: {
 				type: Object,
 				notify: true,
@@ -94,6 +103,10 @@ class CurrencyChart extends PolymerElement {
 		window.addEventListener('resize', this._resize.bind(this))
 	}
 
+	/**
+	 * In order to resize the graph for responsive design, subproperties 
+	 * of this.graphOptions must be modified and subsequently notified of change.
+	 */
 	_resize() {
 		this.graphOptions.width = window.innerWidth * 0.7;
 		this.graphOptions.height = window.innerWidth * 0.5;
