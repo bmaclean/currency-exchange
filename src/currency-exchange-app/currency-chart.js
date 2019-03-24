@@ -54,25 +54,33 @@ class CurrencyChart extends PolymerElement {
 						backgroundColor: '#37474f',
 						width: window.innerWidth * .7,
 						height: window.innerWidth * .5,
+						dataOpacity: 0.5,
 						chartArea: {
 							top: 25
 						},
+						legend: { 
+							textStyle: {
+								color: '#cfd8dc', 
+								fontSize: 16
+							}
+						},
 						hAxis: {
 							// title: 'Date',
+							maxTextLines: 1,
 							titleTextStyle: {
-								color: 'white'
+								color: '#cfd8dc'
 							},
 							textStyle: {
-								color: 'white',
+								color: '#cfd8dc',
 							},
 						},
 						vAxis: {
 							// title: 'Currency Value',
 							titleTextStyle: {
-								color: 'white'
+								color: '#cfd8dc'
 							},
 							textStyle: {
-								color: 'white',
+								color: '#cfd8dc',
 							},
 						}
 					};
